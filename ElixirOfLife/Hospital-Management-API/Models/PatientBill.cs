@@ -8,5 +8,6 @@ namespace Hospital_Management_API.Models
         public string? BillId { get; set; }
         public Patient? Patient { get; set; }
         public int BillPrice { get; set; }
+        public bool IsPaid { get; set; }
     }
 }

@@ -21,26 +21,6 @@ namespace Hospital_Management_API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Hospital_Management_API.Models.DoctorSpecialization", b =>
-                {
-                    b.Property<string>("DSID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("DoctorEmployeeId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SpecializationId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("DSID");
-
-                    b.HasIndex("DoctorEmployeeId");
-
-                    b.HasIndex("SpecializationId");
-
-                    b.ToTable("DoctorSpecialization");
-                });
-
             modelBuilder.Entity("Hospital_Management_API.Models.DrugInventory", b =>
                 {
                     b.Property<string>("DrugId")
@@ -105,6 +85,26 @@ namespace Hospital_Management_API.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("Hospital_Management_API.Models.EmployeeSpecialization", b =>
+                {
+                    b.Property<string>("DSID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DoctorEmployeeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SpecializationId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("DSID");
+
+                    b.HasIndex("DoctorEmployeeId");
+
+                    b.HasIndex("SpecializationId");
+
+                    b.ToTable("EmployeeSpecialization");
+                });
+
             modelBuilder.Entity("Hospital_Management_API.Models.HealthSymptoms", b =>
                 {
                     b.Property<string>("SymptomId")
@@ -131,6 +131,9 @@ namespace Hospital_Management_API.Migrations
 
                     b.Property<string>("DiagnosedImgURL")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Issued")
+                        .HasColumnType("bit");
 
                     b.Property<string>("IssuerEmployeeId")
                         .HasColumnType("nvarchar(450)");
@@ -171,9 +174,6 @@ namespace Hospital_Management_API.Migrations
                     b.Property<string>("PatientId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Bill")
-                        .HasColumnType("int");
-
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
@@ -199,6 +199,9 @@ namespace Hospital_Management_API.Migrations
                     b.Property<int>("BillPrice")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PatientId")
                         .HasColumnType("nvarchar(450)");
 
@@ -214,8 +217,8 @@ namespace Hospital_Management_API.Migrations
                     b.Property<string>("PrescriptionId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DiagnosedWith")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("Bought")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Medication")
                         .HasColumnType("nvarchar(max)");
@@ -228,6 +231,9 @@ namespace Hospital_Management_API.Migrations
 
                     b.Property<string>("PrescriptionIssuerEmployeeId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("SessionActive")
+                        .HasColumnType("bit");
 
                     b.HasKey("PrescriptionId");
 
@@ -246,17 +252,32 @@ namespace Hospital_Management_API.Migrations
                     b.Property<string>("RoleDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Roleame")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RoleId");
 
-                    b.HasIndex("RoleId1");
-
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("Hospital_Management_API.Models.RoleRoom", b =>
+                {
+                    b.Property<string>("RRID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RRID");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoleRoom");
                 });
 
             modelBuilder.Entity("Hospital_Management_API.Models.Room", b =>
@@ -273,6 +294,9 @@ namespace Hospital_Management_API.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("RoomCount")
                         .HasColumnType("nvarchar(max)");
 
@@ -285,6 +309,8 @@ namespace Hospital_Management_API.Migrations
                     b.HasKey("RoomId");
 
                     b.HasIndex("DefaultDoctorEmployeeId");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Rooms");
                 });
@@ -358,7 +384,16 @@ namespace Hospital_Management_API.Migrations
                     b.ToTable("SymptomsDrugs");
                 });
 
-            modelBuilder.Entity("Hospital_Management_API.Models.DoctorSpecialization", b =>
+            modelBuilder.Entity("Hospital_Management_API.Models.Employee", b =>
+                {
+                    b.HasOne("Hospital_Management_API.Models.Role", "Role")
+                        .WithMany("Employees")
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("Hospital_Management_API.Models.EmployeeSpecialization", b =>
                 {
                     b.HasOne("Hospital_Management_API.Models.Employee", "Doctor")
                         .WithMany("DoctorSpecializations")
@@ -371,15 +406,6 @@ namespace Hospital_Management_API.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Specialization");
-                });
-
-            modelBuilder.Entity("Hospital_Management_API.Models.Employee", b =>
-                {
-                    b.HasOne("Hospital_Management_API.Models.Role", "Role")
-                        .WithMany("Employees")
-                        .HasForeignKey("RoleId");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Hospital_Management_API.Models.LabReport", b =>
@@ -421,11 +447,19 @@ namespace Hospital_Management_API.Migrations
                     b.Navigation("PrescriptionIssuer");
                 });
 
-            modelBuilder.Entity("Hospital_Management_API.Models.Role", b =>
+            modelBuilder.Entity("Hospital_Management_API.Models.RoleRoom", b =>
                 {
-                    b.HasOne("Hospital_Management_API.Models.Role", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("RoleId1");
+                    b.HasOne("Hospital_Management_API.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
+
+                    b.HasOne("Hospital_Management_API.Models.Room", "Room")
+                        .WithMany("RolesRooms")
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("Role");
+
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("Hospital_Management_API.Models.Room", b =>
@@ -433,6 +467,10 @@ namespace Hospital_Management_API.Migrations
                     b.HasOne("Hospital_Management_API.Models.Employee", "DefaultDoctor")
                         .WithMany("Rooms")
                         .HasForeignKey("DefaultDoctorEmployeeId");
+
+                    b.HasOne("Hospital_Management_API.Models.Role", null)
+                        .WithMany("RoleRoom")
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("DefaultDoctor");
                 });
@@ -455,7 +493,7 @@ namespace Hospital_Management_API.Migrations
             modelBuilder.Entity("Hospital_Management_API.Models.Specialization", b =>
                 {
                     b.HasOne("Hospital_Management_API.Models.Role", "Role")
-                        .WithMany()
+                        .WithMany("Specializations")
                         .HasForeignKey("RoleId");
 
                     b.HasOne("Hospital_Management_API.Models.Specialization", null)
@@ -514,12 +552,16 @@ namespace Hospital_Management_API.Migrations
                 {
                     b.Navigation("Employees");
 
-                    b.Navigation("Roles");
+                    b.Navigation("RoleRoom");
+
+                    b.Navigation("Specializations");
                 });
 
             modelBuilder.Entity("Hospital_Management_API.Models.Room", b =>
                 {
                     b.Navigation("Patients");
+
+                    b.Navigation("RolesRooms");
                 });
 
             modelBuilder.Entity("Hospital_Management_API.Models.Specialization", b =>

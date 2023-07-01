@@ -18,7 +18,7 @@ namespace Hospital_Management_API.Models
         public ICollection<Room>? Rooms { get; set; }
         public ICollection<Prescription>? Prescriptions { get; set; }
         public ICollection<LabReport>? LabReports { get; set; }
-        public ICollection<DoctorSpecialization>? DoctorSpecializations { get; set;}
+        public ICollection<EmployeeSpecialization>? DoctorSpecializations { get; set;}
 
 
     }
