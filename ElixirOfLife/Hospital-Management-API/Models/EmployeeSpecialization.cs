@@ -2,7 +2,7 @@
 
 namespace Hospital_Management_API.Models
 {
-    public class DoctorSpecialization
+    public class EmployeeSpecialization
     {
         [Key]
         public string? DSID { get; set; }

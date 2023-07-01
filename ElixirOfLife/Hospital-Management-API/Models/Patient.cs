@@ -10,7 +10,6 @@ namespace Hospital_Management_API.Models
         public string? Gender { get; set; }
         public byte[]? PasswordHash { get; set; }
         public byte[]? passwordKey { get; set; } 
-        public int Bill { get; set; }
         public ICollection<LabReport>? LabReport { get; set; }
         public ICollection<PatientBill>? PatientBill { get; set;}
         public ICollection<Prescription>? Prescriptions { get; set; }
