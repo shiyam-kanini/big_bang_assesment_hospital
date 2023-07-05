@@ -1,0 +1,57 @@
+.navbar{
+    height: 100px;
+    
+}
+.nav-flex{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    transition: all 5s;
+}
+.profile{
+    position: relative;
+    top: 20%;
+}
+.profile-ico{
+    color: #004271;
+}
+.navbar-toggler{
+    height: 50%;
+    color: rgb(0, 0, 0);
+    border: 1px solid;
+    position: relative;
+    top: 25%;
+}
+.collapse{
+    background-color: #365166;
+}
+.nav-link{
+    color: rgb(255, 255, 255);
+    font-size: large;
+}
+.head-link{
+    position: relative;
+    top: 25%;
+}
+.nav-tabs{
+    width: 100%;
+    border-radius: 15px;
+    display: flex ;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-tabs :hover{
+    color: white;
+    background-color: #338c43;
+    border-radius: 15px;
+}
+.profile > img{
+    transition: all 1s;
+}
+.profile > img:hover {
+    transform: scale(1.3, 1.3);
+}

@@ -1,12 +1,14 @@
 ﻿using Hospital_Management_API.Models_Dto_.AdminDto;
 using Hospital_Management_API.Models_Response_.AdminResponses;
 using Hospital_Management_API.Repositories.AdminRepo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hospital_Management_API.Controllers
 {
     [ApiController]
     [Route("[controller]/actions")]
+    [Authorize(Roles="ROLEID001")]
     public class AdminController : Controller
     {
         private readonly IRepoAdmin repoContext;
@@ -14,7 +16,7 @@ namespace Hospital_Management_API.Controllers
         {
             this.repoContext = repoContext;
         }
-        [HttpPost]
+        [HttpPut]
         [Route("enableemployee")]
         public async Task<EnableEmployeeResponse> EnableEmployee(EnableEmployeeDto employee)
         {

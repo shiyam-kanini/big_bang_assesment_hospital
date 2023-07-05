@@ -1,8 +1,11 @@
-﻿using Hospital_Management_API.Models_Dto_;
+﻿using Hospital_Management_API.Models;
+using Hospital_Management_API.Models_Dto_;
 using Hospital_Management_API.Models_Dto_.LabReportDto;
 using Hospital_Management_API.Models_Response_.LabReportResponses;
 using Hospital_Management_API.Repositories.LabReportRepo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Hospital_Management_API.Controllers
 {
@@ -16,19 +19,32 @@ namespace Hospital_Management_API.Controllers
             this.repoContext = repoContext;
         }
         [HttpPost]
-        public async Task<IActionResult> RequestLabReport(LabReportPatientDTO labReport)
+        [Route("requestlabreport")]
+        [Authorize(Roles = "Patient")]
+        public async Task<LabReportPatientResponse> RequestLabReport(LabReportPatientDTO labReport)
         {
-            LabReportPatientResponse result = await repoContext.LabReportPatient(labReport);
-            if (!result.Status)
-            {
-                return NotFound(result);
-            }
-            return Ok(result);
+            return await repoContext.LabReportPatient(labReport);
         }
         [HttpPut]
+        [Route("providelabreport")]
+        [Authorize(Roles = "ROLEID003")]
         public async Task<LabReportIssuerResponse> GenerateLabReport(LabReportIssuerDTO labReport)
         {
             return await repoContext.LabReportIssuer(labReport);
+        }
+        [HttpGet]
+        [Route("getlabreports")]
+        [Authorize(Roles = "ROLEID003")]
+        public async Task<List<LabReport>> GetLabReports()
+        {
+            return await repoContext.GetLabReports();
+        }
+        [HttpGet]
+        [Route("getlabreportsbypatients")]
+        [Authorize(Roles = "Patient")]
+        public async Task<List<LabReport>> GetLabReportsByPatients(string patientId)
+        {
+            return await repoContext.GetLabReportsByPatients(patientId);
         }
     }
 }

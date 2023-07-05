@@ -89,6 +89,19 @@ namespace Hospital_Management_API.Repositories.PrescriptionRepo
                 {
                     AddPrescriptionResponse(false, $"doctor with {sessionData.PrescriptionIssuer} not found"); return response;
                 }
+                prescriptionSession = await _context.Prescriptions.Where(x => x.PrescriptionIssuer.EmployeeId.Equals(sessionData.PrescriptionIssuer) && x.Patient.PatientId.Equals(sessionData.Patient)).Select( y => new Prescription
+                {
+                    PrescriptionId= y.PrescriptionId,
+                    PrescriptionIssuer = y.PrescriptionIssuer,
+                    Patient = y.Patient,
+                    SessionActive = y.SessionActive
+
+                }).FirstOrDefaultAsync();
+                if(prescriptionSession != null) 
+                {
+                    AddPrescriptionResponse(false, prescriptionSession.SessionActive ? $"Session is active under {prescriptionSession.PrescriptionId}" : "session is pennding ");
+                    return response;
+                }
                 AddPrescription($"PRESID{random.Next(1000, 9999)}", patient, doctor, sessionData.SessionActive);
                 await _context.Prescriptions.AddAsync(prescriptionSession);
                 await _context.SaveChangesAsync();
@@ -119,6 +132,27 @@ namespace Hospital_Management_API.Repositories.PrescriptionRepo
         {
             response.Status= status;
             response.Message= message;
+        }
+
+        public async Task<List<Prescription>> GetAllPrescriptions()
+        {
+            return await _context.Prescriptions.Include(x => x.Patient).Include(y => y.PrescriptionIssuer).ToListAsync();
+        }
+        public async Task<List<Employee>> GetDoctors()
+        {
+            return await _context.Employees.Include(a => a.Role).Include(b => b.DoctorSpecializations).Where(x => x.Role.RoleId.Equals("ROLEID002")).ToListAsync();
+        }
+        public async Task<Prescription> GetPrescriptionById(string Id)
+        {
+            return await _context.Prescriptions.Where(x => x.PrescriptionId.Equals(Id) && x.SessionActive).FirstOrDefaultAsync();
+        }
+        public async Task<List<Prescription>> GetPrescriptionByDoctor(string doctorId)
+        {
+            return await _context.Prescriptions.Where(x => x.PrescriptionIssuer.EmployeeId.Equals(doctorId)).Include(y => y.Patient).Include(z => z.PrescriptionIssuer).ToListAsync();
+        }
+        public async Task<Prescription> GetPrescriptionByPatient(string prescriptionId)
+        {
+            return await _context.Prescriptions.Include(y => y.Patient).Include(z => z.PrescriptionIssuer).Where(a => a.PrescriptionId.Equals(prescriptionId)).FirstOrDefaultAsync();
         }
     }
 }

@@ -1,0 +1,36 @@
+.bg{
+    background-image: url('./assets/img/background.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    position: relative;
+}
+.button{
+  background-color: rgba(226, 64, 215, 0.5); 
+}
+
+.button :hover{
+  background-color: rgba(226, 64, 215, 0.9);
+}
+
+
+/* Default styles */
+.room-card {
+    width: 30rem;
+    background-color: rgba(200, 200, 200, 0.2);
+  }
+  
+  /* Media queries for different screen sizes */
+  @media (max-width: 768px) {
+    .room-card {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .room-card {
+      width: 80%;
+    }
+  }
+  
+  /* Add more media queries as needed for other screen sizes */
+  

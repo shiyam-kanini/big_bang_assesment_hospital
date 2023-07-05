@@ -1,4 +1,5 @@
-﻿using Hospital_Management_API.Models_Dto_;
+﻿using Hospital_Management_API.Models;
+using Hospital_Management_API.Models_Dto_;
 using Hospital_Management_API.Models_Dto_.LabReportDto;
 using Hospital_Management_API.Models_Response_.LabReportResponses;
 
@@ -8,5 +9,7 @@ namespace Hospital_Management_API.Repositories.LabReportRepo
     {
         Task<LabReportPatientResponse> LabReportPatient(LabReportPatientDTO labReport);
         Task<LabReportIssuerResponse> LabReportIssuer(LabReportIssuerDTO labReport);
+        Task<List<LabReport>> GetLabReports();
+        Task<List<LabReport>> GetLabReportsByPatients(string patientId);
     }
 }

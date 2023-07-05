@@ -6,6 +6,6 @@ namespace Hospital_Management_API.Models_Dto_.AdminDto
     {
         public string? EmployeeId { get; set; }
         public string? Role { get; set; }
-        public bool? SetActive { get; set; }
+        public bool SetActive { get; set; }
     }
 }

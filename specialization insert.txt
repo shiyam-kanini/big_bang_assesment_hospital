@@ -1,0 +1,14 @@
+INSERT INTO [ElixirOfLife_f].[dbo].[Specializations] ([SpecializationId], [SpecializationName], [SpecializationDescription], [RoleId])
+VALUES
+    ('SPID001', 'Cardiology', 'Specializes in the diagnosis and treatment of heart diseases.', 'ROLEID002'),
+    ('SPID002', 'Dermatology', 'Specializes in the diagnosis and treatment of skin disorders.', 'ROLEID002'),
+    ('SPID003', 'Gynecology', 'Specializes in the diagnosis and treatment of female reproductive system disorders.', 'ROLEID002'),
+    ('SPID004', 'Healthcare Administration', 'Specializes in managing and overseeing healthcare organizations.', 'ROLEID001'),
+    ('SPID005', 'Health Informatics', 'Specializes in managing health information and healthcare technology.', 'ROLEID001'),
+    ('SPID006', 'Public Health', 'Specializes in promoting and protecting the health of populations.', 'ROLEID001'),
+    ('SPID007', 'Clinical Pharmacy', 'Specializes in providing clinical pharmacy services.', 'ROLEID004'),
+    ('SPID008', 'Pharmaceutical Sciences', 'Specializes in the study of drug discovery, development, and evaluation.', 'ROLEID004'),
+    ('SPID009', 'Pharmacotherapy', 'Specializes in the use of medications to treat diseases and improve patient outcomes.', 'ROLEID004'),
+    ('SPID010', 'Clinical Pathology', 'Specializes in the analysis of clinical specimens for the diagnosis of diseases.', 'ROLEID003'),
+    ('SPID011', 'Medical Microbiology', 'Specializes in the study of microorganisms that cause diseases.', 'ROLEID003'),
+    ('SPID012', 'Hematology', 'Specializes in the study of blood and blood disorders.', 'ROLEID003');

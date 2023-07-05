@@ -33,6 +33,20 @@ namespace Hospital_Management_API.Repositories.RoomRepo
                 {
                     AddRoomPatientResponse(false, $"No Patient Found with id : {roomRequest.Patient}", roomRequest); return response;
                 }
+                RoomPatient isRequest = await _context.RoomsPatients
+                .Where(x => x.Patient.PatientId == roomRequest.Patient && x.Room.RoomId == roomRequest.Room)
+                .Select(x => new RoomPatient
+                {
+                    Room = x.Room,
+                    Patient= x.Patient,
+                    RDPID = x.RDPID,
+                    IsActive= x.IsActive,
+                })
+                .FirstOrDefaultAsync();
+                if(isRequest != null)
+                {
+                    AddRoomPatientResponse(false, isRequest.IsActive ? $"Room is active under id : {isRequest.RDPID}" : $"Room request is already pending under id : {isRequest.RDPID}", roomRequest); return response;
+                }
                 AddRoom($"RPID{random.Next(1000, 9999)}", isPatient, isRoom);
                 await _context.RoomsPatients.AddAsync(roomPatient);
                 await _context.SaveChangesAsync();
@@ -49,7 +63,7 @@ namespace Hospital_Management_API.Repositories.RoomRepo
         {
             try
             {
-                roomPatient = await _context.RoomsPatients.FindAsync(roomRequest.RDPID);
+                roomPatient = await _context.RoomsPatients.Include(x => x.Room).Include(y => y.Patient).Where(z => z.RDPID.Equals(roomRequest.RDPID)).FirstOrDefaultAsync();
                 if(roomPatient == null)
                 {
                     AddRoomAdminResponse(false, $"No Room has been requested with id : {roomRequest.RDPID}", roomRequest);return response;
@@ -57,7 +71,7 @@ namespace Hospital_Management_API.Repositories.RoomRepo
                 UpdateRoom(roomRequest.isActive);
                 _context.RoomsPatients.Update(roomPatient);
                 await _context.SaveChangesAsync();
-                AddRoomAdminResponse(true, roomRequest.isActive ? $"Room {roomPatient.Room} has been authorized to {roomPatient.Patient}" : $"Room Authorization has been revoked for id {roomRequest.RDPID}",roomRequest);
+                AddRoomAdminResponse(true, roomRequest.isActive ? $"Room {roomPatient?.Room?.RoomType} has been authorized to {roomPatient?.Patient?.PatientName}" : $"Room Authorization has been revoked for id {roomRequest.RDPID}",roomRequest);
                 return response;
             }
             catch(Exception ex)
@@ -69,6 +83,7 @@ namespace Hospital_Management_API.Repositories.RoomRepo
         {
             return await _context.Rooms.ToListAsync();
         }
+
         public void AddRoom(string id, Patient patient, Room room)
         {
             roomPatient = new RoomPatient()
@@ -97,6 +112,11 @@ namespace Hospital_Management_API.Repositories.RoomRepo
             response.Message = message;
             response.PatientResponse = null;
             response.AdminResponse = request;
+        }
+
+        public async Task<List<RoomPatient>> GetAllRoomPatient()
+        {
+            return await _context.RoomsPatients.Include(x => x.Patient).Include(y => y.Room).ToListAsync();
         }
     }
 }

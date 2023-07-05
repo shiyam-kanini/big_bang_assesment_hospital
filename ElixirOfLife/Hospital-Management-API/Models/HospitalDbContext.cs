@@ -16,9 +16,6 @@ namespace Hospital_Management_API.Models
         public DbSet<RoomPatient> RoomsPatients { get;set; }
         public DbSet<Prescription> Prescriptions { get; set; }
         public DbSet<LabReport> LabReports { get; set; }
-        public DbSet<PatientBill> PatientBills { get; set; }
         public DbSet<HealthSymptoms> HealthSymptoms { get;set; }
-        public DbSet<SymptomsDrugs> SymptomsDrugs { get; set; }
-        public DbSet<RoleRoom> RoleRoom { get; set; }
     }
 }

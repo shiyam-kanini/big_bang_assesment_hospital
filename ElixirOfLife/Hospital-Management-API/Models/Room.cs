@@ -10,9 +10,9 @@ namespace Hospital_Management_API.Models
         public string? RoomDescription { get; set; }
         public string? RoomCount { get; set; }
         public string? IsAvailable { get; set; }
+        public string? RoomImgURL { get; set; }
         public Employee? DefaultDoctor { get; set; }
         public int Price { get; set; }
-        public ICollection<RoleRoom>? RolesRooms { get; set; }
         public ICollection<RoomPatient>? Patients { get; set; }
         
 

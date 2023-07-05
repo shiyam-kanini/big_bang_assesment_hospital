@@ -1,0 +1,10 @@
+.button{
+    background-color: rgba(60,60,120,.7);
+}
+.button:hover{
+    background-color: rgba(60,60,120);
+}
+
+.btnMorph{
+    opacity: .8;
+}

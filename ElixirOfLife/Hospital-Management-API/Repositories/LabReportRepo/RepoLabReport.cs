@@ -2,6 +2,7 @@
 using Hospital_Management_API.Models_Dto_;
 using Hospital_Management_API.Models_Dto_.LabReportDto;
 using Hospital_Management_API.Models_Response_.LabReportResponses;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hospital_Management_API.Repositories.LabReportRepo
 {
@@ -63,6 +64,10 @@ namespace Hospital_Management_API.Repositories.LabReportRepo
                 AddIssuerResponse(false, ex.Message, labReport); return issuerResponse;
             }
         }
+        public async Task<List<LabReport>> GetLabReports()
+        {
+            return await _context.LabReports.Include( x => x.Patient).Include(y => y.Issuer).ToListAsync();
+        }
         public void AddLabReport(string id, Patient patient)
         {
             report = new LabReport()
@@ -95,6 +100,10 @@ namespace Hospital_Management_API.Repositories.LabReportRepo
                 Message = message,
                 labReport = labReportIssuer
             };
+        }
+        public async Task<List<LabReport>> GetLabReportsByPatients(string patientId)
+        {
+            return await _context.LabReports.Where(x => x.Patient.PatientId.Equals(patientId)).Include(y => y.Patient).ToListAsync();
         }
     }
 }
