@@ -29,24 +29,24 @@ namespace Hospital_Management_API.Repositories.LoginRepo
                 Employee? isEmployeeExist = await _context.Employees.FindAsync(loginCredentials.LoginId ?? "");
                 if (isEmployeeExist == null)
                 {
-                    AddLoginResPonse(false, $"Employee Id {loginCredentials.LoginId} doesn't exists", loginLog);
+                    AddLoginResPonse(false, $"Employee Id {loginCredentials.LoginId} doesn't exists", loginLog, "");
                     return loginResponse;
                 }
                 if (!VerifyPassword(loginCredentials.Password ?? "", isEmployeeExist.PasswordHash, isEmployeeExist.passwordKey))
                 {
-                    AddLoginResPonse(false, "Passwords dont match", loginLog); return loginResponse;
+                    AddLoginResPonse(false, "Passwords dont match", loginLog, ""); return loginResponse;
                 }
                 string role = _context.Employees.Where(x => x.EmployeeId.Equals(loginCredentials.LoginId)).Select(y => y.Role.RoleId).FirstOrDefaultAsync().Result ?? "";
                 string token = CreateToken(loginCredentials, role);
                 AddLoginLog($"SID{random.Next(1000, 9999)}", loginCredentials, token);
                 await _context.LoginLogs.AddAsync(loginLog);
                 await _context.SaveChangesAsync();
-                AddLoginResPonse(true, $"Employee {isEmployeeExist.EmployeeId} has logged in {loginLog.SessionId}", loginLog);
+                AddLoginResPonse(true, $"Employee {isEmployeeExist.EmployeeId} has logged in {loginLog.SessionId}", loginLog, role);
                 return loginResponse;
             }
             catch (Exception ex)
             {
-                AddLoginResPonse(false, ex.Message, loginLog);
+                AddLoginResPonse(false, ex.Message, loginLog, "");
                 return loginResponse;
             }
         }
@@ -57,23 +57,23 @@ namespace Hospital_Management_API.Repositories.LoginRepo
                 Patient? isPatientExist = await _context.Patients.FindAsync(loginCredentials.LoginId ?? "");
                 if (isPatientExist == null)
                 {
-                    AddLoginResPonse(false, $"Employee Id {loginCredentials.LoginId} doesn't exists", loginLog);
+                    AddLoginResPonse(false, $"Patient Id {loginCredentials.LoginId} doesn't exists", loginLog, "");
                     return loginResponse;
                 }
                 if (!VerifyPassword(loginCredentials.Password ?? "", isPatientExist.PasswordHash, isPatientExist.passwordKey))
                 {
-                    AddLoginResPonse(false, "Passwords dont match", loginLog); return loginResponse;
+                    AddLoginResPonse(false, "Passwords dont match", loginLog, ""); return loginResponse;
                 }
                 string token = CreateToken(loginCredentials, "Patient");
                 AddLoginLog($"SID{random.Next(1000, 9999)}", loginCredentials, token);
                 await _context.LoginLogs.AddAsync(loginLog);
                 await _context.SaveChangesAsync();
-                AddLoginResPonse(true, $"Patient {isPatientExist.PatientId} has logged in on a session {loginLog.SessionId}", loginLog);
+                AddLoginResPonse(true, $"Patient {isPatientExist.PatientId} has logged in on a session {loginLog.SessionId}", loginLog, "Patient");
                 return loginResponse;
             }
             catch (Exception ex)
             {
-                AddLoginResPonse(false, ex.Message, loginLog);
+                AddLoginResPonse(false, ex.Message, loginLog, "");
                 return loginResponse;
             }
         }
@@ -84,23 +84,23 @@ namespace Hospital_Management_API.Repositories.LoginRepo
                 loginLog = await _context.LoginLogs.FindAsync(SessionId);
                 if (loginLog == null)
                 {
-                    AddLoginResPonse(false, $"Session Not Found", loginLog);
+                    AddLoginResPonse(false, $"Session Not Found", loginLog, "");
                     return loginResponse;
                 }
                 if (!loginLog.IsLoggedIn)
                 {
-                    AddLoginResPonse(false, $"Session already logged out", null);
+                    AddLoginResPonse(false, $"Session already logged out", null, "");
                     return loginResponse;
                 }
                 loginLog.IsLoggedIn = false;
                 _context.LoginLogs.Update(loginLog);
                 await _context.SaveChangesAsync();
-                AddLoginResPonse(true, $"Session {SessionId} Logged out", loginLog);
+                AddLoginResPonse(true, $"Session {SessionId} Logged out", loginLog, "");
                 return loginResponse;
             }
             catch (Exception ex)
             {
-                AddLoginResPonse(false, ex.Message, loginLog);
+                AddLoginResPonse(false, ex.Message, loginLog, "");
                 return loginResponse;
             }
         }
@@ -114,13 +114,14 @@ namespace Hospital_Management_API.Repositories.LoginRepo
                 IsLoggedIn = true,
             };
         }
-        public void AddLoginResPonse(bool status, string Message, LoginLog loginLog)
+        public void AddLoginResPonse(bool status, string Message, LoginLog loginLog, string role)
         {
             loginResponse = new LoginResponse()
             {
                 Status = status,
                 Message = Message,
-                LoginLog = loginLog
+                LoginLog = loginLog,
+                Role = role
             };
         }
         public bool VerifyPassword(string password, byte[]? storedHash, byte[]? storedSalt)
@@ -153,7 +154,7 @@ namespace Hospital_Management_API.Repositories.LoginRepo
                 issuer: Configuration["JWT:ValidIssuer"],
                 audience: Configuration["JWT:ValidAudience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddDays(1),
+                expires: DateTime.UtcNow.AddHours(1),
                 signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

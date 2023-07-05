@@ -1,12 +1,14 @@
 ﻿using Hospital_Management_API.Models_Dto_;
 using Hospital_Management_API.Models_Response_;
 using Hospital_Management_API.Repositories.LoginRepo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hospital_Management_API.Controllers
 {
     [ApiController]
     [Route("[controller]/actions")]
+    [AllowAnonymous]
     public class LoginController : ControllerBase
     {
         private readonly IRepoLogin repoContext;
@@ -26,7 +28,7 @@ namespace Hospital_Management_API.Controllers
         {
             return await repoContext.LoginPatient(loginCredentials);
         }
-        [HttpGet]
+        [HttpPut]
         [Route("logout")]
         public async Task<LoginResponse> Logout(string sessionId)
         {

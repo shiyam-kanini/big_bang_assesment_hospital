@@ -31,7 +31,7 @@ namespace Hospital_Management_API.Repositories.AdminRepo
                     AddEnableResponseResponse(false, $"Employee Id {enableEmployee.EmployeeId} Not found", disabledEmployee);
                     return enabled;
                 }
-                disabledEmployee.isActive = true;disabledEmployee.Role = await _context.Roles.FindAsync(enableEmployee.Role);
+                disabledEmployee.isActive = enableEmployee.SetActive ;disabledEmployee.Role = await _context.Roles.FindAsync(enableEmployee.Role);
                 _context.Employees.Update(disabledEmployee);
                 await _context.SaveChangesAsync();
                 AddEnableResponseResponse(true, $"Employee {disabledEmployee.EmployeeFirstName} {disabledEmployee.EmployeeLastName} is activated", disabledEmployee);

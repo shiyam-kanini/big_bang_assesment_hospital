@@ -11,6 +11,5 @@ namespace Hospital_Management_API.Models
         public string? DrugDescription { get;set; }
         public string? DrugImgURL { get; set; }
         public int DrugPrice { get; set; }
-        public ICollection<SymptomsDrugs>? SymptomsDrugs { get; set;}
     }
 }

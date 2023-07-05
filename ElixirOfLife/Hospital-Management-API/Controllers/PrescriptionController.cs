@@ -1,4 +1,5 @@
-﻿using Hospital_Management_API.Models_Dto_.PrescriptionDto;
+﻿using Hospital_Management_API.Models;
+using Hospital_Management_API.Models_Dto_.PrescriptionDto;
 using Hospital_Management_API.Models_Response_.PrescriptionResponses;
 using Hospital_Management_API.Repositories.PrescriptionRepo;
 using Microsoft.AspNetCore.Authorization;
@@ -16,36 +17,54 @@ namespace Hospital_Management_API.Controllers
             this.repoContext = repoContext;
         }
         [HttpPost]
-        public async Task<IActionResult> StartSession(DoctorSessionDTO sessionData)
+        [Route("requestdoctorsession")]
+        [Authorize(Roles = "Patient")]
+        public async Task<PrescriptionResponse> StartSession(DoctorSessionDTO sessionData)
         {
-            PrescriptionResponse response = await repoContext.InitiateSession(sessionData);
-            if (!response.Status)
-            {
-                return NotFound(response);
-            }
-            return Ok(response);
+            return await repoContext.InitiateSession(sessionData);
         }
         [HttpPut]
         [Route("diagnosesymptoms")]
-        public async Task<IActionResult> DiagnoseSymptoms(DiagnoseDTO diagnoseData)
+        [Authorize(Roles = "Patient")]
+        public async Task<DiagnoseResponse> DiagnoseSymptoms(DiagnoseDTO diagnoseData)
         {
-            DiagnoseResponse response = await repoContext.DiagnoseSymptoms(diagnoseData);
-            if (!response.Status)
-            {
-                return NotFound(response);
-            }
-            return Ok(response);
+            return await repoContext.DiagnoseSymptoms(diagnoseData);
         }
         [HttpPut]
         [Route("buydrugs")]
-        public async Task<IActionResult> BuyDrugs(BuyDrugsDTO medicationDTO)
+        [Authorize(Roles = "Patient")]
+        public async Task<PrescriptionResponse> BuyDrugs(BuyDrugsDTO medicationDTO)
         {
-            PrescriptionResponse response = await repoContext.BuyDrugs(medicationDTO);
-            if (!response.Status)
-            {
-                return NotFound(response);
-            }
-            return Ok(response);
+            return await repoContext.BuyDrugs(medicationDTO);
         }
+        [HttpGet]
+        [Route("getallprescription")]
+        [Authorize(Roles = "ROLEID002")]
+        public async Task<List<Prescription>> GetAllPrescription()
+        {
+            return await repoContext.GetAllPrescriptions();
+        }
+        [HttpGet]
+        [Route("getalldoctors")]
+        [Authorize(Roles = "Patient")]
+        public async Task<List<Employee>> GetDoctors()
+        {
+            return await repoContext.GetDoctors();
+        }
+        [HttpGet]
+        [Route("getprescriptionbyid")]
+        [Authorize(Roles = "Patient")]
+        public async Task<Prescription> GetPrescriptionById(string id)
+        {
+            return await repoContext.GetPrescriptionById(id);
+        }
+        [HttpGet]
+        [Route("getprescriptionbydoctor")]
+        [Authorize(Roles ="ROLEID002")]
+        public async Task<List<Prescription>> GetPrescriptionByDoctor(string doctorId)
+        {
+            return await repoContext.GetPrescriptionByDoctor(doctorId);
+        }
+
     }
 }

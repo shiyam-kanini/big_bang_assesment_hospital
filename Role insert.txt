@@ -1,0 +1,15 @@
+-- Admin
+INSERT INTO [ElixirOfLife_f].[dbo].[Roles] ([RoleId], [Roleame], [RoleDescription])
+VALUES ('ROLEID001', 'Admin', 'Administrative role with overall control and management of the healthcare system. Responsible for system configuration, user management, and access control.');
+
+-- Doctor
+INSERT INTO [ElixirOfLife_f].[dbo].[Roles] ([RoleId], [Roleame], [RoleDescription])
+VALUES ('ROLEID002', 'Doctor', 'Medical practitioner role responsible for diagnosing and treating patients. They have specialized medical knowledge and expertise in various fields.');
+
+-- Lab Technician
+INSERT INTO [ElixirOfLife_f].[dbo].[Roles] ([RoleId], [Roleame], [RoleDescription])
+VALUES ('ROLEID003', 'Lab Technician', 'Role in the laboratory responsible for conducting medical tests and experiments. They handle laboratory equipment, perform sample analysis, and maintain lab records.');
+
+-- Pharmacist
+INSERT INTO [ElixirOfLife_f].[dbo].[Roles] ([RoleId], [Roleame], [RoleDescription])
+VALUES ('ROLEID004', 'Pharmacist', 'Healthcare professional responsible for dispensing medications, providing drug-related information, and ensuring proper medication management.');

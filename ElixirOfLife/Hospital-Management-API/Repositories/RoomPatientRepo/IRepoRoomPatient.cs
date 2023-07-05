@@ -10,5 +10,6 @@ namespace Hospital_Management_API.Repositories.RoomRepo
         Task<RoomPatientResponse> AuthorizeRoom(RoomPatientResponseDTO roomRequest);
         Task<RoomPatientResponse> PatientRequestRP(RoomPatientRequestDTO roomRequest);
         Task<List<Room>> GetAllRooms();
+        Task<List<RoomPatient>> GetAllRoomPatient();
     }
 }

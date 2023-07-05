@@ -191,27 +191,6 @@ namespace Hospital_Management_API.Migrations
                     b.ToTable("Patients");
                 });
 
-            modelBuilder.Entity("Hospital_Management_API.Models.PatientBill", b =>
-                {
-                    b.Property<string>("BillId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("BillPrice")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PatientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("BillId");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("PatientBills");
-                });
-
             modelBuilder.Entity("Hospital_Management_API.Models.Prescription", b =>
                 {
                     b.Property<string>("PrescriptionId")
@@ -260,26 +239,6 @@ namespace Hospital_Management_API.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("Hospital_Management_API.Models.RoleRoom", b =>
-                {
-                    b.Property<string>("RRID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RoomId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("RRID");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("RoomId");
-
-                    b.ToTable("RoleRoom");
-                });
-
             modelBuilder.Entity("Hospital_Management_API.Models.Room", b =>
                 {
                     b.Property<string>("RoomId")
@@ -301,6 +260,9 @@ namespace Hospital_Management_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoomDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomImgURL")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoomType")
@@ -364,26 +326,6 @@ namespace Hospital_Management_API.Migrations
                     b.ToTable("Specializations");
                 });
 
-            modelBuilder.Entity("Hospital_Management_API.Models.SymptomsDrugs", b =>
-                {
-                    b.Property<string>("SDID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("DrugId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SymptomsSymptomId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("SDID");
-
-                    b.HasIndex("DrugId");
-
-                    b.HasIndex("SymptomsSymptomId");
-
-                    b.ToTable("SymptomsDrugs");
-                });
-
             modelBuilder.Entity("Hospital_Management_API.Models.Employee", b =>
                 {
                     b.HasOne("Hospital_Management_API.Models.Role", "Role")
@@ -423,15 +365,6 @@ namespace Hospital_Management_API.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("Hospital_Management_API.Models.PatientBill", b =>
-                {
-                    b.HasOne("Hospital_Management_API.Models.Patient", "Patient")
-                        .WithMany("PatientBill")
-                        .HasForeignKey("PatientId");
-
-                    b.Navigation("Patient");
-                });
-
             modelBuilder.Entity("Hospital_Management_API.Models.Prescription", b =>
                 {
                     b.HasOne("Hospital_Management_API.Models.Patient", "Patient")
@@ -445,21 +378,6 @@ namespace Hospital_Management_API.Migrations
                     b.Navigation("Patient");
 
                     b.Navigation("PrescriptionIssuer");
-                });
-
-            modelBuilder.Entity("Hospital_Management_API.Models.RoleRoom", b =>
-                {
-                    b.HasOne("Hospital_Management_API.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId");
-
-                    b.HasOne("Hospital_Management_API.Models.Room", "Room")
-                        .WithMany("RolesRooms")
-                        .HasForeignKey("RoomId");
-
-                    b.Navigation("Role");
-
-                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("Hospital_Management_API.Models.Room", b =>
@@ -503,26 +421,6 @@ namespace Hospital_Management_API.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Hospital_Management_API.Models.SymptomsDrugs", b =>
-                {
-                    b.HasOne("Hospital_Management_API.Models.DrugInventory", "Drug")
-                        .WithMany("SymptomsDrugs")
-                        .HasForeignKey("DrugId");
-
-                    b.HasOne("Hospital_Management_API.Models.HealthSymptoms", "Symptoms")
-                        .WithMany("SymptomsDrugs")
-                        .HasForeignKey("SymptomsSymptomId");
-
-                    b.Navigation("Drug");
-
-                    b.Navigation("Symptoms");
-                });
-
-            modelBuilder.Entity("Hospital_Management_API.Models.DrugInventory", b =>
-                {
-                    b.Navigation("SymptomsDrugs");
-                });
-
             modelBuilder.Entity("Hospital_Management_API.Models.Employee", b =>
                 {
                     b.Navigation("DoctorSpecializations");
@@ -534,16 +432,9 @@ namespace Hospital_Management_API.Migrations
                     b.Navigation("Rooms");
                 });
 
-            modelBuilder.Entity("Hospital_Management_API.Models.HealthSymptoms", b =>
-                {
-                    b.Navigation("SymptomsDrugs");
-                });
-
             modelBuilder.Entity("Hospital_Management_API.Models.Patient", b =>
                 {
                     b.Navigation("LabReport");
-
-                    b.Navigation("PatientBill");
 
                     b.Navigation("Prescriptions");
                 });
@@ -560,8 +451,6 @@ namespace Hospital_Management_API.Migrations
             modelBuilder.Entity("Hospital_Management_API.Models.Room", b =>
                 {
                     b.Navigation("Patients");
-
-                    b.Navigation("RolesRooms");
                 });
 
             modelBuilder.Entity("Hospital_Management_API.Models.Specialization", b =>
