@@ -1,20 +1,3 @@
 # big_bang_assesment_hospital
 ##Outputs
-[Screenshot (114)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/a2631e14-e080-449d-9dfd-e23f2b377429)
-![Uploading Screenshot (113).png…]()
-![Uploading Screenshot (112).png…]()
-![Uploading Screenshot (111).png…]()
-![Uploading Screenshot (110).png…]()
-![Uploading Screenshot (109).png…]()
-![Uploading Screenshot (108).png…]()
-![Screenshot (107)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/74d967ce-f6eb-4da5-995e-d01edbed32e0)
-![Screenshot (106)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/3980281e-d3cb-4a38-9571-502d15d9e3dc)
-![Uploading Screenshot (105).png…]()
-![Screenshot (104)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/a5893c1e-111c-426e-a49e-231b926435d1)
-![Uploading Screenshot (103).png…]()
-![Uploading Screenshot (102).png…]()
-![Screenshot (101)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/42245858-f096-4bd4-9ed9-b2db0c47eb74)
-![Uploading Screenshot (100).png…]()
-![Uploading Screenshot (99).png…]()
-![Uploading Screenshot (98).png…]()
-![Uploading Screenshot (115).png…]()
+
