@@ -12,6 +12,8 @@
 ![Screenshot (106)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/05c6eb36-bc2f-4db9-8517-7c043c4ae2c2)![Screenshot (107)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/2bcbb7e0-f349-4f13-b190-91f797bfa081)
 ![Screenshot (108)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/c2f403a5-39b6-40ae-92f1-aa0198781dfe)
 
+![Screenshot (110)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/0ab57929-fe68-46ce-908c-c3efc322b885)
+![Screenshot (109)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/3d14460b-f7f4-4984-9417-d69478537a3a)
 ![Screenshot (111)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/50949a59-9f57-4b07-ba22-f738819c72c4)
 ![Screenshot (112)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/85db7551-b198-45aa-9c89-57dc8![Screenshot (113)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/f56dea11-0f6e-4772-bc69-189d57c0abbb)
 b985ef3)![Screenshot (114)](https://github.com/shiyam-kanini/big_bang_assesment_hospital/assets/127293743/d9384ba8-6cdf-4b6c-93fd-53cac27b5d1b)
